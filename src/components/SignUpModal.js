@@ -1,15 +1,22 @@
 import React, { useContext, useRef, useState } from "react";
 import { UserContext } from "../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUpModal() {
   const { modalState, toggleModals, signUp } = useContext(UserContext);
   console.log(signUp);
+
+  const navigate = useNavigate();
+
   const inputs = useRef([]);
+
   const addInputs = (el) => {
     if (el && !inputs.current.includes(el)) inputs.current.push(el);
   };
   const [validation, setValidation] = useState("");
+
   const formRef = useRef();
+
   const handleForm = async (e) => {
     e.preventDefault();
 
@@ -27,9 +34,11 @@ export default function SignUpModal() {
         inputs.current[0].value,
         inputs.current[1].value
       );
-      formRef.current.reset();
+
       setValidation("");
-      // console.log(cred);
+      console.log(cred);
+      toggleModals("close");
+      navigate("/private/private-home");
     } catch (err) {
       // console.dir(err);
       if (err.code === "auth/email-already-in-use") {
@@ -37,7 +46,6 @@ export default function SignUpModal() {
       } else if (err.code === "auth/invalid-email") {
         setValidation("Votre email est incorrect");
       }
-      formRef.current.reset();
     }
   };
   const closeModal = () => {
@@ -59,7 +67,7 @@ export default function SignUpModal() {
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title">Sign Up</h5>
+                  <h5 className="modal-title">Inscription</h5>
                   <button onClick={closeModal} className="btn-close"></button>
                 </div>
                 <div className="modal-body">
@@ -80,7 +88,7 @@ export default function SignUpModal() {
                       />
                     </div>
                     <div className="mb-3">
-                      <label htmlFor="signUpPwd">Password</label>
+                      <label htmlFor="signUpPwd">Mot de passe</label>
                       <input
                         ref={addInputs}
                         name="pwd"
@@ -91,7 +99,7 @@ export default function SignUpModal() {
                       />
                     </div>
                     <div className="mb-3">
-                      <label htmlFor="repeatPwd">Repeat Password</label>
+                      <label htmlFor="repeatPwd">Répéter mot de passe</label>
                       <input
                         ref={addInputs}
                         name="pwd"
