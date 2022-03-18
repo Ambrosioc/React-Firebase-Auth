@@ -8,6 +8,11 @@ export default function Home() {
       <h1 className="display-3 text-light">
         {currentUser ? "Welcome Mec" : "Hi, Sign Up or Sign In"}
       </h1>
+      <p className="text-light">
+        {currentUser
+          ? "Tu as vu l'image ou pas ?"
+          : "Essai de te connecter pour me dire quelle image tu vois :)"}
+      </p>
     </div>
   );
 }
